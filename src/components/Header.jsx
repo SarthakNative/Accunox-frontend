@@ -1,23 +1,16 @@
-import { useState } from 'react';
-import SearchBar from './SearchBar'; // Adjust the import path as needed
-import { useSelector } from 'react-redux';
-import Category from './Category';
+import { useDispatch, useSelector } from 'react-redux';
+import SearchBar from './SearchBar';
+import { setSearchQuery } from '../slices/dashboardSlice'; // Adjust path as needed
 
 export default function Header() {
   const categories = useSelector(state => state.dashboard.categories);
   const widgets = useSelector(state => state.dashboard.widgets);
-  const [searchQuery, setSearchQuery] = useState('');
+  const searchQuery = useSelector(state => state.dashboard.searchQuery); // Get from Redux
+  const dispatch = useDispatch();
 
-    {/* Search results */}
-        {searchQuery.trim() ? (
-          <SearchResults q={searchQuery} widgets={widgets} categories={categories} />
-        ) : (
-          <div className="categories-grid">
-            {categories.map(cat => (
-              <Category key={cat.id} category={cat} />
-            ))}
-          </div>
-        )}
+  const handleSearchChange = (value) => {
+    dispatch(setSearchQuery(value)); // Update Redux state
+  };
 
   return (
     <header className="w-full bg-gray-50 border-b border-gray-200">
@@ -31,7 +24,7 @@ export default function Header() {
 
         {/* Center section - Search */}
         <div className="flex-1 max-w-2xl mx-8">
-          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+          <SearchBar value={searchQuery} onChange={handleSearchChange} />
         </div>
 
         {/* Right section - Actions */}
@@ -59,29 +52,41 @@ export default function Header() {
           </button>
         </div>
       </div>
+
+      {/* Search results - Only show if there's a search query */}
+      {searchQuery && searchQuery.trim() ? (
+        <div className="px-6 py-3 border-t border-gray-200 bg-white">
+          <SearchResults q={searchQuery} widgets={widgets} categories={categories} />
+        </div>
+      ) : null}
     </header>
   );
 }
 
 function SearchResults({ q, widgets, categories }) {
+  // Add safety check for q
+  if (!q || typeof q.trim !== 'function') {
+    return null;
+  }
+
   const ql = q.toLowerCase().trim();
   const results = widgets.filter(
     w => w.title.toLowerCase().includes(ql) || w.text.toLowerCase().includes(ql)
   );
 
   if (results.length === 0) {
-    return <div className="no-results">No widgets found for "{q}"</div>;
+    return <div className="no-results p-4 text-gray-500">No widgets found for "{q}"</div>;
   }
 
   return (
     <div>
-      <h3>Search results for "{q}"</h3>
-      <div className="search-results">
+      <h3 className="text-lg font-semibold mb-3">Search results for "{q}"</h3>
+      <div className="search-results grid gap-3">
         {results.map(w => (
-          <div key={w.id} className="search-item">
-            <h4>{w.title}</h4>
-            <p>{w.text}</p>
-            <div className="meta">
+          <div key={w.id} className="search-item p-3 bg-gray-50 rounded-lg border">
+            <h4 className="font-medium text-gray-900">{w.title}</h4>
+            <p className="text-gray-600 text-sm mt-1">{w.text}</p>
+            <div className="meta text-xs text-gray-500 mt-2">
               Categories:{' '}
               {w.categoryIds.length
                 ? w.categoryIds

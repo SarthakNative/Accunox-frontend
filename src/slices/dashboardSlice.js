@@ -19,7 +19,8 @@ const initialState = {
     { id: 'w5', title: 'Image  risk assesment', text: 'Revenue numbers and growth', categoryIds: ['rscan'] },
     { id: 'w6', title: 'Image security issues', text: 'Revenue numbers and growth', categoryIds: ['rscan'] }
   ],
-  showCategoryManager:false
+  showCategoryManager:false,
+  searchQuery:null
 };
 
 const dashboardSlice = createSlice({
@@ -79,6 +80,9 @@ const dashboardSlice = createSlice({
     },
     setShowCategoryManager(state,action){
       state.showCategoryManager=action.payload;
+    },
+    setSearchQuery(state, action){
+      state.searchQuery=action.payload
     }
   }
 });
@@ -90,7 +94,8 @@ export const {
   deleteWidget,
   toggleWidgetCategory,
   setStateFromJson,
-  setShowCategoryManager
+  setShowCategoryManager,
+  setSearchQuery
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;
