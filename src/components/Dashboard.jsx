@@ -11,13 +11,13 @@ export default function Dashboard() {
   const widgets = useSelector(state => state.dashboard.widgets);
   const showCategoryManager=useSelector(state=>state.dashboard.showCategoryManager);
   const [searchQuery, setSearchQuery] = useState('');
-
+  const dispatch=useDispatch();
   return (
     <div className="dashboard-container">
       <div className="dashboard-controls">
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
       </div>
-      {<CategoryManager isOpen={showCategoryManager}/>}
+      {<CategoryManager isOpen={showCategoryManager} onClose={()=>{dispatch(setShowCategoryManager(false))}}/>}
       {/* Search results */}
       {searchQuery.trim() ? (
         <SearchResults q={searchQuery} widgets={widgets} categories={categories} />
