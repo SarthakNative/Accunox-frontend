@@ -52,13 +52,6 @@ export default function Header() {
           </button>
         </div>
       </div>
-
-      {/* Search results - Only show if there's a search query */}
-      {searchQuery && searchQuery.trim() ? (
-        <div className="px-6 py-3 border-t border-gray-200 bg-white">
-          <SearchResults q={searchQuery} widgets={widgets} categories={categories} />
-        </div>
-      ) : null}
     </header>
   );
 }

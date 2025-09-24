@@ -13,7 +13,6 @@ export default function CategoryManager({ isOpen, onClose }) {
   };
 
   const handleConfirm = () => {
-    // Add your confirm logic here
     onClose();
   };
 
@@ -28,7 +27,7 @@ export default function CategoryManager({ isOpen, onClose }) {
       />
       
       {/* Side Popup */}
-    <div className="fixed top-0 right-0 h-screen w-full max-w-[480px] bg-white shadow-xl z-50 flex flex-col animate-slide-in">
+    <div className="fixed top-0 right-0 h-screen w-full max-w-[680px] bg-white shadow-xl z-50 flex flex-col animate-slide-in">
         
         {/* Header */}
         <div className="bg-blue-900 text-white px-6 py-5 flex justify-between items-center">
