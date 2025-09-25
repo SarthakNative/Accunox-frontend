@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import SearchBar from './SearchBar';
-import { setSearchQuery, setShowCategoryManager } from '../slices/dashboardSlice'; // Adjust path as needed
+import { setSearchQuery, setShowCategoryManager } from '../slices/dashboardSlice'; 
 import { useState } from 'react';
 
 export default function Header() {
-  const searchQuery = useSelector(state => state.dashboard.searchQuery); // Get from Redux
+  const searchQuery = useSelector(state => state.dashboard.searchQuery); 
   const dispatch = useDispatch();
   const [open,setOpen] =useState(false);
 
   const handleSearchChange = (value) => {
-    dispatch(setSearchQuery(value)); // Update Redux state
+    dispatch(setSearchQuery(value));
   };
 
   return (

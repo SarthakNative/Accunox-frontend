@@ -54,9 +54,6 @@ export default function WidgetCard({ widget, categoryId }) {
       {widget.text}
     </p>
   </div>
-
-  {/* subtle footer line */}
-  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
 </div>
 
   );

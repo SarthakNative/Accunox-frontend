@@ -19,7 +19,6 @@ export default function AddWidgetModal({ categoryId, onClose }) {
 
   return (
     <div className="bg-[#f5f7fb] text-gray-900 antialiased">
-      {/* Modal (overlay + modal) */}
       <div
         className="fixed inset-0 bg-black/35 flex items-center justify-center z-[60]"
         onClick={onClose}

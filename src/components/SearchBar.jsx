@@ -1,5 +1,4 @@
 export default function SearchBar({ value, onChange }) {
-  // Ensure value is always a string
   const displayValue = value || '';
   
   return (

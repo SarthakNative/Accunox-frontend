@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Category from './Category';
 import CategoryManager from './CategoryManager';
@@ -8,7 +7,7 @@ export default function Dashboard() {
   const categories = useSelector(state => state.dashboard.categories);
   const widgets = useSelector(state => state.dashboard.widgets);
   const showCategoryManager = useSelector(state => state.dashboard.showCategoryManager);
-  const searchQuery = useSelector(state => state.dashboard.searchQuery); // Get from Redux
+  const searchQuery = useSelector(state => state.dashboard.searchQuery);
   const dispatch = useDispatch();
 
   return (
@@ -33,7 +32,6 @@ export default function Dashboard() {
 }
 
 function SearchResults({ q, widgets, categories }) {
-  // Add safety check
   if (!q || typeof q.trim !== 'function') {
     return null;
   }

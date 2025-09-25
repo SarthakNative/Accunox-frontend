@@ -1,10 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-/**
- * Initial sample data matching assignment expectations.
- * You can change this JSON to whatever initial categories/widgets you want.
- */
 const initialState = {
   categories: [
     { id: 'cspm', name: 'CSPM Executive dashboard', widgetIds: ['w1', 'w2'] },
@@ -28,12 +24,10 @@ const dashboardSlice = createSlice({
   initialState,
   reducers: {
     addCategory(state, action) {
-      // payload: { name }
       const id = uuidv4();
       state.categories.push({ id, name: action.payload.name, widgetIds: [] });
     },
     addWidget(state, action) {
-      // payload: { title, text, categoryId }
       const id = uuidv4();
       const { title, text, categoryId } = action.payload;
       const widget = { id, title, text, categoryIds: categoryId ? [categoryId] : [] };
@@ -44,7 +38,6 @@ const dashboardSlice = createSlice({
       }
     },
     removeWidgetFromCategory(state, action) {
-      // payload: { widgetId, categoryId }
       const { widgetId, categoryId } = action.payload;
       const cat = state.categories.find(c => c.id === categoryId);
       if (cat) cat.widgetIds = cat.widgetIds.filter(id => id !== widgetId);
@@ -53,7 +46,6 @@ const dashboardSlice = createSlice({
       if (w) w.categoryIds = w.categoryIds.filter(c => c !== categoryId);
     },
     deleteWidget(state, action) {
-      // payload: { widgetId }
       const wid = action.payload.widgetId;
       state.widgets = state.widgets.filter(w => w.id !== wid);
       state.categories.forEach(c => {
@@ -61,7 +53,6 @@ const dashboardSlice = createSlice({
       });
     },
     toggleWidgetCategory(state, action) {
-      // payload: { widgetId, categoryId, checked }
       const { widgetId, categoryId, checked } = action.payload;
       const cat = state.categories.find(c => c.id === categoryId);
       const w = state.widgets.find(w => w.id === widgetId);
@@ -74,7 +65,6 @@ const dashboardSlice = createSlice({
       }
     },
     setStateFromJson(state, action) {
-      // payload: { categories, widgets } - replace whole structure (optional)
       state.categories = action.payload.categories || [];
       state.widgets = action.payload.widgets || [];
     },

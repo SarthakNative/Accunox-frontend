@@ -1,5 +1,4 @@
-// Category.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import WidgetCard from './WidgetCard';
 import AddWidgetModal from './AddWidgetModal';
@@ -10,12 +9,10 @@ export default function Category({ category }) {
   const [showModal, setShowModal] = useState(false);
   const widgets = useSelector(state => state.dashboard.widgets);
   const dispatch =useDispatch();
-  // map widgetIds to actual widget objects in the order specified
   const widgetList = category.widgetIds
     .map(wid => widgets.find(w => w.id === wid))
     .filter(Boolean);
 
-  // small inner component for the "Add Widget" card
   const AddWidgetCard = () => (
     <div
       role="button"
@@ -40,7 +37,6 @@ export default function Category({ category }) {
     <div className="bg-[#f0f5fa]">
       <div className="category-header flex items-center justify-between p-5">
         <h2 className="text-xl font-semibold">{category.name}</h2>
-        {/* kept header for title / other actions if you want them */}
       </div>
 
       <div className="grid grid-cols-3 gap-4 p-5">
@@ -48,7 +44,6 @@ export default function Category({ category }) {
             {widgetList.map(w => (
               <WidgetCard key={w.id} widget={w} categoryId={category.id} />
             ))}
-            {/* always render the add card as the last grid item */}
             <AddWidgetCard />
           </>
       </div>
