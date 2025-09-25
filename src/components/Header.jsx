@@ -3,8 +3,6 @@ import SearchBar from './SearchBar';
 import { setSearchQuery } from '../slices/dashboardSlice'; // Adjust path as needed
 
 export default function Header() {
-  const categories = useSelector(state => state.dashboard.categories);
-  const widgets = useSelector(state => state.dashboard.widgets);
   const searchQuery = useSelector(state => state.dashboard.searchQuery); // Get from Redux
   const dispatch = useDispatch();
 
@@ -25,7 +23,7 @@ export default function Header() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <span className="text-sm font-medium text-gray-700 truncate max-w-[120px]">Dashboard V2</span>
+          <span className="text-sm font-medium text-gray-700 truncate">Dashboard V2</span>
         </div>
 
         {/* Right: Essential actions */}
@@ -62,19 +60,17 @@ export default function Header() {
     {/* Desktop Layout */}
     <div className="hidden lg:flex items-center justify-between">
       {/* Left section - Breadcrumb */}
-      <div className="flex items-center space-x-2 text-sm">
+      <div className="flex items-center space-x-2 text-sm whitespace-nowrap">
         <span className="text-gray-500">Home</span>
         <span className="text-gray-400">›</span>
         <span className="text-gray-700 font-medium">Dashboard V2</span>
       </div>
 
-      {/* Center section - Search */}
-      <div className="flex-1 max-w-2xl mx-8">
+      <div className="flex justify-end space-x-4 w-full">
+         <div className="flex-1 max-w-xl mr-4">
         <SearchBar value={searchQuery} onChange={handleSearchChange} />
       </div>
 
-      {/* Right section - Actions */}
-      <div className="flex items-center space-x-4">
         {/* Dropdown button */}
         <button className="flex items-center space-x-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md transition-colors">
           <span className="text-gray-700">Actions</span>
@@ -96,6 +92,8 @@ export default function Header() {
             <span className="text-white text-sm font-medium">U</span>
           </div>
         </button>
+
+        
       </div>
     </div>
   </div>

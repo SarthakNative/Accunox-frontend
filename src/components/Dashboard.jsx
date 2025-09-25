@@ -12,9 +12,7 @@ export default function Dashboard() {
   const dispatch = useDispatch();
 
   return (
-    <div className="dashboard-container">
-      {/* Remove the SearchBar from Dashboard since it's now in Header */}
-      
+    <div className="">
       <CategoryManager 
         isOpen={showCategoryManager} 
         onClose={() => dispatch(setShowCategoryManager(false))}
@@ -24,7 +22,7 @@ export default function Dashboard() {
       {searchQuery && searchQuery.trim() ? (
         <SearchResults q={searchQuery} widgets={widgets} categories={categories} />
       ) : (
-        <div className="categories-grid">
+        <div className="grid">
           {categories.map(cat => (
             <Category key={cat.id} category={cat} />
           ))}

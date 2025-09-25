@@ -12,7 +12,7 @@ export default function SearchBar({ value, onChange }) {
       />
       {displayValue && (
         <button
-          className="absolute right-2 px-3 py-1 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
+          className="absolute right-2 px-3 py-3 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
           onClick={() => onChange('')}
         >
           Clear
