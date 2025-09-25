@@ -22,7 +22,7 @@ export default function Dashboard() {
       {searchQuery && searchQuery.trim() ? (
         <SearchResults q={searchQuery} widgets={widgets} categories={categories} />
       ) : (
-        <div className="grid">
+        <div>
           {categories.map(cat => (
             <Category key={cat.id} category={cat} />
           ))}

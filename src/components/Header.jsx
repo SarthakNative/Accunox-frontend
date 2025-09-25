@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import SearchBar from './SearchBar';
-import { setSearchQuery } from '../slices/dashboardSlice'; // Adjust path as needed
+import { setSearchQuery, setShowCategoryManager } from '../slices/dashboardSlice'; // Adjust path as needed
+import { useState } from 'react';
 
 export default function Header() {
   const searchQuery = useSelector(state => state.dashboard.searchQuery); // Get from Redux
   const dispatch = useDispatch();
+  const [open,setOpen] =useState(false);
 
   const handleSearchChange = (value) => {
     dispatch(setSearchQuery(value)); // Update Redux state
@@ -71,13 +73,44 @@ export default function Header() {
         <SearchBar value={searchQuery} onChange={handleSearchChange} />
       </div>
 
-        {/* Dropdown button */}
-        <button className="flex items-center space-x-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md transition-colors">
-          <span className="text-gray-700">Actions</span>
-          <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+        <div className="relative inline-block text-left">
+      {/* Dropdown button */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center space-x-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md transition-colors"
+      >
+        <span className="text-gray-700">Actions</span>
+        <svg
+          className={`w-4 h-4 text-gray-600 transform transition-transform ${
+            open ? "rotate-180" : "rotate-0"
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {/* Dropdown menu */}
+      {open && (
+        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+          <ul className="py-1">
+            <li>
+              <button
+                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                onClick={() => {
+                  dispatch(setShowCategoryManager(true));
+                  setOpen(false);
+                }}
+              >
+                Open Category Manager
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
 
         {/* Notification icon */}
         <button className="p-2 hover:bg-gray-200 rounded-full transition-colors">

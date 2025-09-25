@@ -8,11 +8,11 @@ import { v4 as uuidv4 } from 'uuid';
 const initialState = {
   categories: [
     { id: 'cspm', name: 'CSPM Executive dashboard', widgetIds: ['w1', 'w2'] },
-    { id: 'cwpp', name: 'CWPP Dashboard', widgetIds: ['w3','w4','w1'] },
+    { id: 'cwpp', name: 'CWPP Dashboard', widgetIds: ['w3','w4'] },
     { id: 'rscan', name: 'Registry Scan', widgetIds: ['w5','w6'] }
   ],
   widgets: [
-    { id: 'w1', title: 'Cloud', text: 'sdsadasd', categoryIds: ['cspm'] },
+    { id: 'w1', title: 'Cloud Accounts', text: 'sdsadasd', categoryIds: ['cspm'] },
     { id: 'w2', title: 'Cloud acounts risk assesment', text: 'sdsdasdasd', categoryIds: ['cspm'] },
     { id: 'w3', title: 'Top 5 Namespace specific alerts', text: 'Revenue numbers and growth', categoryIds: ['cwpp'] },
     { id: 'w4', title: 'Workload alerts', text: 'Revenue numbers and growth', categoryIds: ['cwpp'] },
