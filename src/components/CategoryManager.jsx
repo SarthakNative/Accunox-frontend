@@ -1,18 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleWidgetCategory, addCategory } from '../slices/dashboardSlice';
+import { toggleWidgetCategory } from '../slices/dashboardSlice';
 
 export default function CategoryManager({ isOpen, onClose }) {
   const categories = useSelector(s => s.dashboard.categories);
   const widgets = useSelector(s => s.dashboard.widgets);
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState(categories[0]?.id || '');
 
+  const [activeTab, setActiveTab] = useState(categories[0]?.id || '');
+  const [localWidgetStates, setLocalWidgetStates] = useState({});
+
+  // Sync local state when popup opens or widgets/categories change
+  useEffect(() => {
+    if (isOpen) {
+      const initialState = {};
+      widgets.forEach(widget => {
+        initialState[widget.id] = {};
+        categories.forEach(cat => {
+          initialState[widget.id][cat.id] = widget.categoryIds.includes(cat.id);
+        });
+      });
+      setLocalWidgetStates(initialState);
+    }
+  }, [isOpen, widgets, categories]);
+
+  // ✅ Local toggle only (no Redux)
   const onToggle = (widgetId, categoryId, checked) => {
-    dispatch(toggleWidgetCategory({ widgetId, categoryId, checked }));
+    setLocalWidgetStates(prev => ({
+      ...prev,
+      [widgetId]: {
+        ...prev[widgetId],
+        [categoryId]: checked,
+      },
+    }));
   };
 
+  // ✅ Dispatch changes on confirm
   const handleConfirm = () => {
+    Object.entries(localWidgetStates).forEach(([widgetId, catMap]) => {
+      Object.entries(catMap).forEach(([categoryId, checked]) => {
+        // Compare to original Redux data
+        const widget = widgets.find(w => w.id === widgetId);
+        const wasChecked = widget?.categoryIds.includes(categoryId);
+        if (wasChecked !== checked) {
+          dispatch(toggleWidgetCategory({ widgetId, categoryId, checked }));
+        }
+      });
+    });
+
     onClose();
   };
 
@@ -27,7 +62,7 @@ export default function CategoryManager({ isOpen, onClose }) {
       />
       
       {/* Side Popup */}
-    <div className="fixed top-0 right-0 h-screen w-full max-w-[680px] bg-white shadow-xl z-50 flex flex-col animate-slide-in">
+      <div className="fixed top-0 right-0 h-screen w-full max-w-[680px] bg-white shadow-xl z-50 flex flex-col animate-slide-in">
         
         {/* Header */}
         <div className="bg-blue-900 text-white px-6 py-5 flex justify-between items-center">
@@ -74,8 +109,11 @@ export default function CategoryManager({ isOpen, onClose }) {
                 No widgets available
               </div>
             )}
+
             {widgets.map(widget => {
-              const isChecked = widget.categoryIds.includes(activeTab);
+              const isChecked =
+                localWidgetStates[widget.id]?.[activeTab] || false;
+
               return (
                 <label 
                   key={widget.id} 
